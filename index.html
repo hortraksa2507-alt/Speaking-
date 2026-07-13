@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speaking Exam Trainer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mic">🎤</span>
+        <div>
+          <h1>Speaking Exam Trainer</h1>
+          <p class="tagline">Practise all 3 parts of your speaking exam</p>
+        </div>
+      </div>
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="part1">Part 1<span class="tab-sub">Questions</span></button>
+        <button class="tab" data-tab="part2">Part 2<span class="tab-sub">Discuss &amp; Decide</span></button>
+        <button class="tab" data-tab="part3">Part 3<span class="tab-sub">Discussion</span></button>
+        <button class="tab" data-tab="vocab">Vocabulary<span class="tab-sub">Words &amp; Phrases</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- PART 1 -->
+    <section class="panel active" id="panel-part1">
+      <div class="panel-intro">
+        <h2 id="part1-title"></h2>
+        <p id="part1-instructions"></p>
+      </div>
+      <div class="topic-picker" id="part1-topics"></div>
+      <div class="practice-card" id="part1-card"></div>
+    </section>
+
+    <!-- PART 2 -->
+    <section class="panel" id="panel-part2">
+      <div class="panel-intro">
+        <h2 id="part2-title"></h2>
+        <p id="part2-instructions"></p>
+      </div>
+      <div class="topic-picker" id="part2-topics"></div>
+      <div class="practice-card" id="part2-card"></div>
+    </section>
+
+    <!-- PART 3 -->
+    <section class="panel" id="panel-part3">
+      <div class="panel-intro">
+        <h2 id="part3-title"></h2>
+        <p id="part3-instructions"></p>
+      </div>
+      <div class="topic-picker" id="part3-topics"></div>
+      <div class="practice-card" id="part3-card"></div>
+    </section>
+
+    <!-- VOCABULARY -->
+    <section class="panel" id="panel-vocab">
+      <div class="panel-intro">
+        <h2>Useful Vocabulary &amp; Phrases</h2>
+        <p>Learn these by heart — they work in every part of the exam. Click a card to hide the meaning and test yourself.</p>
+      </div>
+      <div class="vocab-filter" id="vocab-filter"></div>
+      <div class="vocab-grid" id="vocab-grid"></div>
+    </section>
+  </main>
+
+  <!-- Timer / recorder bar -->
+  <div class="coach-bar" id="coach-bar" hidden>
+    <div class="coach-phase" id="coach-phase">Preparation</div>
+    <div class="coach-timer" id="coach-timer">0:30</div>
+    <div class="coach-controls">
+      <button id="coach-record" class="btn btn-record" title="Record yourself">● Rec</button>
+      <button id="coach-stop" class="btn btn-ghost">Stop</button>
+    </div>
+    <audio id="coach-playback" controls hidden></audio>
+  </div>
+
+  <footer class="app-footer">
+    <p>Tip: record yourself, listen back, and repeat the same task until it feels easy. Good luck in your exam! 🍀</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
