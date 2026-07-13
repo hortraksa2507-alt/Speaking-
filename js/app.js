@@ -251,7 +251,7 @@
   const p2Card = $("#part2-card");
 
   p2.tasks.forEach((task, idx) => {
-    const c = chip(task.topic, () => {
+    const c = chip(task.short || task.topic, () => {
       activateChip(p2Topics, c);
       renderPart2(idx);
     });
@@ -320,11 +320,13 @@
   const p3Card = $("#part3-card");
 
   p3.tasks.forEach((task, idx) => {
-    const short = task.question.length > 46 ? task.question.slice(0, 44) + "…" : task.question;
-    const c = chip(short, () => {
+    const label = task.short || task.question;
+    const c = chip(task.s6 ? label + " ⭐" : label, () => {
       activateChip(p3Topics, c);
       renderPart3(idx);
     });
+    if (task.s6) c.classList.add("s6");
+    c.title = task.question;
     p3Topics.appendChild(c);
   });
   p3Topics.appendChild(
@@ -337,15 +339,19 @@
 
   function renderPart3(idx) {
     const task = p3.tasks[idx];
+    const s6Badge = task.s6
+      ? '<span class="s6-badge">⭐ S6 Intercultural Competence — compare Cambodia, Japan &amp; Australia</span>'
+      : "";
+    const phraseCats = task.s6
+      ? ["Comparing cultures (S6 ⭐)", "Keeping the conversation going (Part 3)"]
+      : ["Keeping the conversation going (Part 3)", "Agreeing & disagreeing"];
     p3Card.innerHTML =
-      '<span class="card-part-label">Part 3 · Discussion</span>' +
+      '<span class="card-part-label">Part 3 · Group Discussion</span>' +
+      s6Badge +
       '<h3 class="card-question">' + task.question + "</h3>" +
       helpBlock("📌 Ideas to talk about", task.ideas, true) +
       helpBlock("💡 Tips", task.tips) +
-      helpBlock(
-        "🗣️ Phrases to keep the conversation going",
-        phrasesFor(["Keeping the conversation going (Part 3)", "Agreeing & disagreeing"])
-      ) +
+      helpBlock("🗣️ Useful phrases for this discussion", phrasesFor(phraseCats)) +
       '<div class="card-actions">' +
       '<button class="btn btn-primary" id="p3-start">▶ Start: ' +
       p3.prepSeconds + "s prep + " + Math.round(p3.speakSeconds / 60) + " min discussion</button>" +

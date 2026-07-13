@@ -89,6 +89,21 @@ body {
 .topic-chip:hover { border-color: var(--brand); color: var(--brand); }
 .topic-chip.active { background: var(--brand); border-color: var(--brand); color: #fff; }
 .topic-chip.random { border-style: dashed; }
+.topic-chip.s6 { border-color: #f0b429; background: #fff8e6; color: #8a6207; }
+.topic-chip.s6:hover { border-color: #d99a06; color: #6d4e04; }
+.topic-chip.s6.active { background: #f0b429; border-color: #f0b429; color: #3d2b02; }
+
+.s6-badge {
+  display: inline-block;
+  background: #fff3cd;
+  color: #7a5804;
+  border: 1px solid #f0d888;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin: 0 0 12px 8px;
+}
 
 /* ---------- practice card ---------- */
 .practice-card {
