@@ -177,6 +177,23 @@
     );
   }
 
+  function textBlock(title, text, open, cls) {
+    if (!text) return "";
+    return (
+      '<details class="help-block ' + (cls || "") + '"' + (open ? " open" : "") +
+      "><summary>" + title + "</summary>" +
+      '<p class="answer-text">' + text + "</p></details>"
+    );
+  }
+
+  function answerBlocks(item, stepsTitle) {
+    return (
+      helpBlock(stepsTitle || "🪜 Steps to answer", item.steps, true) +
+      textBlock("✅ Simple answer — start here", item.simple, false, "simple-answer") +
+      textBlock("🌟 Model answer (Raksa's version)", item.model, false, "model-answer")
+    );
+  }
+
   /* ---------------- Part 1 ---------------- */
   const p1 = EXAM_DATA.part1;
   $("#part1-title").textContent = p1.title;
@@ -201,30 +218,42 @@
 
   function renderPart1(idx, randomQuestion) {
     const topic = p1.topics[idx];
+    const qText = (q) => (typeof q === "string" ? q : q.q);
     const startQ = randomQuestion
       ? Math.floor(Math.random() * topic.questions.length)
       : 0;
     p1Card.innerHTML =
       '<span class="card-part-label">Part 1 · ' + topic.topic + "</span>" +
-      '<p class="card-sub">Click a question to select it, then start the timer and answer out loud.</p>' +
+      '<p class="card-sub">Click a question to select it, then start the timer and answer out loud. ' +
+      "Structure: direct answer → 2 reasons or details → personal example.</p>" +
       '<ul class="question-list">' +
       topic.questions
         .map(
           (q, i) =>
-            '<li data-q="' + i + '"' + (i === startQ ? ' class="current"' : "") + ">" + q + "</li>"
+            '<li data-q="' + i + '"' + (i === startQ ? ' class="current"' : "") + ">" + qText(q) + "</li>"
         )
         .join("") +
       "</ul>" +
+      '<div id="p1-answer"></div>' +
       helpBlock("💡 Tips for this topic", topic.tips) +
       '<div class="card-actions">' +
       '<button class="btn btn-primary" id="p1-start">▶ Answer (' + p1.speakSeconds + 's)</button>' +
       '<button class="btn btn-secondary" id="p1-next">Next question →</button>' +
       "</div>";
 
+    const answerArea = $("#p1-answer");
+    const showAnswer = (i) => {
+      const q = topic.questions[i];
+      answerArea.innerHTML =
+        typeof q === "string" ? "" : answerBlocks(q, "🪜 How to answer — step by step");
+    };
+    showAnswer(startQ);
+
     $$(".question-list li", p1Card).forEach((li) => {
       li.addEventListener("click", () => {
         $$(".question-list li", p1Card).forEach((x) => x.classList.remove("current"));
         li.classList.add("current");
+        showAnswer(Number(li.dataset.q));
       });
     });
     $("#p1-start").addEventListener("click", () =>
@@ -233,9 +262,11 @@
     $("#p1-next").addEventListener("click", () => {
       const items = $$(".question-list li", p1Card);
       const cur = items.findIndex((x) => x.classList.contains("current"));
+      const next = (cur + 1) % items.length;
       items[cur].classList.remove("current");
-      items[(cur + 1) % items.length].classList.add("current");
-      items[(cur + 1) % items.length].scrollIntoView({ block: "nearest" });
+      items[next].classList.add("current");
+      items[next].scrollIntoView({ block: "nearest" });
+      showAnswer(next);
     });
   }
 
@@ -287,7 +318,19 @@
         .join("") +
       "</div>" +
       '<p class="options-hint">Talk about every option first — then click the one you decide on together.</p>' +
+      helpBlock(
+        "🪜 Steps for Discuss & Decide",
+        [
+          "<strong>Suggest</strong> an option with a reason: “How about…? Because…”",
+          "<strong>Respond</strong> to your partner: “That's a good point, but have we considered…?”",
+          "<strong>Compare & eliminate</strong>: “I'd rule this one out because…”",
+          "<strong>Confirm the decision out loud</strong>: “So are we all agreed that…?”",
+        ],
+        true
+      ) +
       helpBlock("💡 Ideas you can use", task.ideas) +
+      textBlock("✅ Simple answer — start here", task.simple, false, "simple-answer") +
+      textBlock("🌟 Model answer (Raksa's turns in the discussion)", task.model, false, "model-answer") +
       helpBlock(
         "🗣️ Phrases for discussing & deciding",
         phrasesFor(["Discussing & comparing options (Part 2)", "Making a decision together (Part 2)"])
@@ -350,6 +393,17 @@
       s6Badge +
       '<h3 class="card-question">' + task.question + "</h3>" +
       helpBlock("📌 Ideas to talk about", task.ideas, true) +
+      helpBlock(
+        "🪜 Steps to answer",
+        [
+          "<strong>Opinion</strong>: “In my opinion… / I'd say…”",
+          "<strong>Reason</strong>: “…because…”",
+          "<strong>Example</strong>: from your life in Cambodia, Japan or Australia.",
+          "<strong>Pass the turn</strong>: “What do you think? / What about in your country?”",
+        ]
+      ) +
+      textBlock("✅ Simple answer — start here", task.simple, false, "simple-answer") +
+      textBlock("🌟 Model answer (Raksa's version)", task.model, false, "model-answer") +
       helpBlock("💡 Tips", task.tips) +
       helpBlock("🗣️ Useful phrases for this discussion", phrasesFor(phraseCats)) +
       '<div class="card-actions">' +
