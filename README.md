@@ -22,6 +22,15 @@ Then open http://localhost:8000.
 
 > Note: microphone recording requires the page to be served over `http://localhost` or `https://` (browser security requirement).
 
+## Add to your phone's home screen
+
+The app is an installable PWA with its own icon. Open the deployed site on your phone, then:
+
+- **iPhone (Safari)**: tap the Share button → "Add to Home Screen".
+- **Android (Chrome)**: tap the ⋮ menu → "Add to Home screen" (or accept the install prompt).
+
+It opens full-screen like a native app and keeps working offline once loaded.
+
 ## How to practise
 
 1. Pick a part and a topic (or use 🎲 Random).
